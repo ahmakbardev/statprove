@@ -25,7 +25,8 @@ const Header = () => {
       className="bg-background/80 backdrop-blur-sm sticky top-0 z-50 w-full border-b"
     >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold">
+        <Link href="/" className="text-2xl font-bold flex items-center gap-2">
+          <Image src="/favicon.ico" alt="Logo" width={24} height={24} />
           Statprove
         </Link>
 
