@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useTheme } from "next-themes"
-import { useLanguage } from "./language-provider"
-import { motion, AnimatePresence } from "framer-motion"
-import { Sun, Moon, Globe, ChevronDown, Menu } from "lucide-react"
-import { useState } from "react"
-import Image from "next/image"
-import { services } from "@/lib/services-data"
+import Link from "next/link";
+import { useTheme } from "next-themes";
+import { useLanguage } from "./language-provider";
+import { motion, AnimatePresence } from "framer-motion";
+import { Sun, Moon, Globe, ChevronDown, Menu } from "lucide-react";
+import { useState } from "react";
+import Image from "next/image";
+import { services } from "@/lib/services-data";
 
 const Header = () => {
-  const { theme, setTheme } = useTheme()
-  const { language, setLanguage, t } = useLanguage()
-  const [showLanguageMenu, setShowLanguageMenu] = useState(false)
-  const [showServicesMenu, setShowServicesMenu] = useState(false)
-  const [hoveredService, setHoveredService] = useState<string | null>(null)
-  const [showMobileMenu, setShowMobileMenu] = useState(false)
+  const { theme, setTheme } = useTheme();
+  const { language, setLanguage, t } = useLanguage();
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
+  const [showServicesMenu, setShowServicesMenu] = useState(false);
+  const [hoveredService, setHoveredService] = useState<string | null>(null);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   return (
     <motion.header
@@ -51,7 +51,12 @@ const Header = () => {
                 >
                   <div className="relative aspect-square rounded-lg overflow-hidden">
                     <Image
-                      src={hoveredService ? services[hoveredService].image : "/placeholder.svg?height=400&width=400"}
+                      src={
+                        hoveredService
+                          ? services[hoveredService as keyof typeof services]
+                              ?.image
+                          : "/placeholder.svg?height=400&width=400"
+                      }
                       alt="Service preview"
                       fill
                       className="object-cover transition-all duration-300"
@@ -68,7 +73,9 @@ const Header = () => {
                       >
                         <div className="p-3 rounded-lg hover:bg-accent transition-colors">
                           <h3 className="font-medium">{service.title}</h3>
-                          <p className="text-sm text-muted-foreground">{service.shortDesc}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {service.shortDesc}
+                          </p>
                         </div>
                       </Link>
                     ))}
@@ -77,13 +84,22 @@ const Header = () => {
               )}
             </AnimatePresence>
           </div>
-          <Link href="/portfolio" className="hover:text-primary transition-colors">
+          <Link
+            href="/portfolio"
+            className="hover:text-primary transition-colors"
+          >
             {t("nav.portfolio")}
           </Link>
-          <Link href="/pricing" className="hover:text-primary transition-colors">
+          <Link
+            href="/pricing"
+            className="hover:text-primary transition-colors"
+          >
             {t("nav.pricing")}
           </Link>
-          <Link href="/contact" className="hover:text-primary transition-colors">
+          <Link
+            href="/contact"
+            className="hover:text-primary transition-colors"
+          >
             {t("nav.contact")}
           </Link>
         </nav>
@@ -110,16 +126,28 @@ const Header = () => {
                 className="bg-background rounded-lg shadow-lg border p-4 space-y-2"
                 onClick={() => setShowMobileMenu(false)}
               >
-                <Link href="/services" className="block p-2 hover:bg-accent rounded-md">
+                <Link
+                  href="/services"
+                  className="block p-2 hover:bg-accent rounded-md"
+                >
                   {t("nav.services")}
                 </Link>
-                <Link href="/portfolio" className="block p-2 hover:bg-accent rounded-md">
+                <Link
+                  href="/portfolio"
+                  className="block p-2 hover:bg-accent rounded-md"
+                >
                   {t("nav.portfolio")}
                 </Link>
-                <Link href="/pricing" className="block p-2 hover:bg-accent rounded-md">
+                <Link
+                  href="/pricing"
+                  className="block p-2 hover:bg-accent rounded-md"
+                >
                   {t("nav.pricing")}
                 </Link>
-                <Link href="/contact" className="block p-2 hover:bg-accent rounded-md">
+                <Link
+                  href="/contact"
+                  className="block p-2 hover:bg-accent rounded-md"
+                >
                   {t("nav.contact")}
                 </Link>
               </motion.div>
@@ -144,7 +172,9 @@ const Header = () => {
               className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors flex items-center gap-1"
             >
               <Globe size={20} />
-              <span className="text-sm font-medium">{language.toUpperCase()}</span>
+              <span className="text-sm font-medium">
+                {language.toUpperCase()}
+              </span>
             </motion.button>
             <AnimatePresence>
               {showLanguageMenu && (
@@ -157,8 +187,8 @@ const Header = () => {
                 >
                   <button
                     onClick={() => {
-                      setLanguage("en")
-                      setShowLanguageMenu(false)
+                      setLanguage("en");
+                      setShowLanguageMenu(false);
                     }}
                     className={`block px-4 py-2 text-sm w-full text-left transition-colors ${
                       language === "en"
@@ -170,8 +200,8 @@ const Header = () => {
                   </button>
                   <button
                     onClick={() => {
-                      setLanguage("id")
-                      setShowLanguageMenu(false)
+                      setLanguage("id");
+                      setShowLanguageMenu(false);
                     }}
                     className={`block px-4 py-2 text-sm w-full text-left transition-colors ${
                       language === "id"
@@ -188,8 +218,7 @@ const Header = () => {
         </div>
       </div>
     </motion.header>
-  )
-}
+  );
+};
 
-export default Header
-
+export default Header;
