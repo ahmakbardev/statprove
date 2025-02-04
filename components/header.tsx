@@ -26,7 +26,7 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/" className="text-2xl font-bold flex items-center gap-2">
-          <Image src="/favicon.ico" alt="Logo" width={24} height={24} />
+          <Image src="/statlogo.png" alt="Logo" width={50} height={50} />
           Statprove
         </Link>
 
