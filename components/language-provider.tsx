@@ -11,7 +11,8 @@ interface LanguageContextType {
   t: (key: string) => string
 }
 
-const translations = {
+
+const translations: Record<string, Record<string, string>> = {
   en: {
     "nav.services": "Services",
     "nav.portfolio": "Portfolio",
