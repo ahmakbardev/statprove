@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { useLanguage } from "@/components/language-provider"
-import Link from "next/link"
-import Image from "next/image"
-import { ArrowRight } from "lucide-react"
-import ProjectModal from "@/components/project-modal"
-import { Check } from "lucide-react"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useLanguage } from "@/components/language-provider";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
+import ProjectModal from "@/components/project-modal";
+import { Check } from "lucide-react";
 
-const MotionImage = motion(Image)
+const MotionImage = motion(Image);
 
 const featuredProjects = [
   {
@@ -18,7 +18,11 @@ const featuredProjects = [
     description:
       "A modern e-commerce platform built with Next.js and Shopify. Features include product management, cart functionality, secure checkout, and responsive design.",
     image: "/placeholder.svg?height=600&width=800",
-    technologies: [{ name: "Next.js" }, { name: "Shopify" }, { name: "Tailwind CSS" }],
+    technologies: [
+      { name: "Next.js" },
+      { name: "Shopify" },
+      { name: "Tailwind CSS" },
+    ],
   },
   {
     title: "Healthcare Dashboard",
@@ -26,7 +30,11 @@ const featuredProjects = [
     description:
       "A comprehensive healthcare dashboard for managing patient data, appointments, and medical records. Built with modern web technologies for optimal performance.",
     image: "/placeholder.svg?height=600&width=800",
-    technologies: [{ name: "React" }, { name: "TypeScript" }, { name: "Material UI" }],
+    technologies: [
+      { name: "React" },
+      { name: "TypeScript" },
+      { name: "Material UI" },
+    ],
   },
   {
     title: "Corporate Website",
@@ -34,13 +42,25 @@ const featuredProjects = [
     description:
       "A modern corporate website with dynamic content management, blog functionality, and integrated analytics for tracking user engagement.",
     image: "/placeholder.svg?height=600&width=800",
-    technologies: [{ name: "Next.js" }, { name: "Prisma" }, { name: "Tailwind CSS" }],
+    technologies: [
+      { name: "Next.js" },
+      { name: "Prisma" },
+      { name: "Tailwind CSS" },
+    ],
   },
-]
+];
 
 export default function Home() {
-  const { t } = useLanguage()
-  const [selectedProject, setSelectedProject] = useState(null)
+  const { t } = useLanguage();
+  interface Project {
+    title: string;
+    category: string;
+    description: string;
+    image: string;
+    technologies: { name: string }[];
+  }
+
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -50,7 +70,7 @@ export default function Home() {
         staggerChildren: 0.2,
       },
     },
-  }
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -62,17 +82,19 @@ export default function Home() {
         stiffness: 100,
       },
     },
-  }
+  };
 
   const services = [
     {
       title: "Web Development",
-      description: "Custom websites built with modern technologies and best practices.",
+      description:
+        "Custom websites built with modern technologies and best practices.",
       link: "/services/web-development",
     },
     {
       title: "E-commerce Solutions",
-      description: "Online stores with secure payment processing and inventory management.",
+      description:
+        "Online stores with secure payment processing and inventory management.",
       link: "/services/ecommerce",
     },
     {
@@ -82,12 +104,14 @@ export default function Home() {
     },
     {
       title: "UI/UX Design",
-      description: "Beautiful and intuitive user interfaces that convert visitors into customers.",
+      description:
+        "Beautiful and intuitive user interfaces that convert visitors into customers.",
       link: "/services/design",
     },
     {
       title: "Maintenance",
-      description: "Regular updates and maintenance to keep your website running smoothly.",
+      description:
+        "Regular updates and maintenance to keep your website running smoothly.",
       link: "/services/maintenance",
     },
     {
@@ -95,25 +119,28 @@ export default function Home() {
       description: "Improve your search engine rankings and online visibility.",
       link: "/services/seo",
     },
-  ]
+  ];
 
   const featuredProjectsOld = [
     {
       title: "E-commerce Platform",
-      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-Ot85dsMvpHDo9dFBxIMxarKmblofqT.png",
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-Ot85dsMvpHDo9dFBxIMxarKmblofqT.png",
       link: "/portfolio/ecommerce",
     },
     {
       title: "Business Website",
-      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-Ot85dsMvpHDo9dFBxIMxarKmblofqT.png",
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-Ot85dsMvpHDo9dFBxIMxarKmblofqT.png",
       link: "/portfolio/business",
     },
     {
       title: "Mobile App",
-      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-Ot85dsMvpHDo9dFBxIMxarKmblofqT.png",
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-Ot85dsMvpHDo9dFBxIMxarKmblofqT.png",
       link: "/portfolio/mobile",
     },
-  ]
+  ];
 
   const pricingPlans = [
     {
@@ -121,14 +148,25 @@ export default function Home() {
       price: "$99",
       period: "/month",
       description: "Perfect for small businesses",
-      features: ["Single Page Website", "Responsive Design", "Contact Form", "Basic SEO"],
+      features: [
+        "Single Page Website",
+        "Responsive Design",
+        "Contact Form",
+        "Basic SEO",
+      ],
     },
     {
       name: "Professional",
       price: "$199",
       period: "/month",
       description: "Great for growing businesses",
-      features: ["Up to 5 Pages", "Responsive Design", "Contact Form", "Advanced SEO", "Analytics Integration"],
+      features: [
+        "Up to 5 Pages",
+        "Responsive Design",
+        "Contact Form",
+        "Advanced SEO",
+        "Analytics Integration",
+      ],
     },
     {
       name: "Business",
@@ -159,7 +197,7 @@ export default function Home() {
         "E-commerce Ready",
       ],
     },
-  ]
+  ];
 
   return (
     <div className="space-y-20 pb-20">
@@ -226,8 +264,8 @@ export default function Home() {
               transition={{ delay: 0.6 }}
               className="text-xl text-muted-foreground max-w-2xl mx-auto"
             >
-              We help businesses transform their digital presence with modern web solutions and innovative design
-              strategies.
+              We help businesses transform their digital presence with modern
+              web solutions and innovative design strategies.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -264,10 +302,17 @@ export default function Home() {
           className="text-center space-y-12"
         >
           <motion.div variants={itemVariants} className="space-y-4">
-            <h2 className="text-3xl md:text-4xl font-bold">{t("featured.title")}</h2>
-            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{t("featured.subtitle")}</p>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              {t("featured.title")}
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              {t("featured.subtitle")}
+            </p>
           </motion.div>
-          <motion.div variants={containerVariants} className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div
+            variants={containerVariants}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
             {featuredProjects.map((project, index) => (
               <motion.div
                 key={index}
@@ -285,7 +330,9 @@ export default function Home() {
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <div className="text-white text-center p-4">
-                      <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+                      <h3 className="text-xl font-semibold mb-2">
+                        {project.title}
+                      </h3>
                       <p className="text-sm opacity-80">{project.category}</p>
                     </div>
                   </div>
@@ -306,10 +353,17 @@ export default function Home() {
           className="text-center space-y-12"
         >
           <motion.div variants={itemVariants} className="space-y-4">
-            <h2 className="text-3xl md:text-4xl font-bold">{t("services.title")}</h2>
-            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{t("services.subtitle")}</p>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              {t("services.title")}
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              {t("services.subtitle")}
+            </p>
           </motion.div>
-          <motion.div variants={containerVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <motion.div
+            variants={containerVariants}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
             {services.map((service, index) => (
               <motion.div
                 key={index}
@@ -318,8 +372,13 @@ export default function Home() {
                 className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg"
               >
                 <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">{service.description}</p>
-                <Link href={service.link} className="inline-block text-primary hover:text-primary/90 font-medium">
+                <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  {service.description}
+                </p>
+                <Link
+                  href={service.link}
+                  className="inline-block text-primary hover:text-primary/90 font-medium"
+                >
                   Learn More →
                 </Link>
               </motion.div>
@@ -338,8 +397,12 @@ export default function Home() {
           className="text-center space-y-12"
         >
           <motion.div variants={itemVariants} className="space-y-4">
-            <h2 className="text-3xl md:text-4xl font-bold">{t("pricing.title")}</h2>
-            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{t("pricing.subtitle")}</p>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              {t("pricing.title")}
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              {t("pricing.subtitle")}
+            </p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {pricingPlans.map((plan, index) => (
@@ -348,7 +411,9 @@ export default function Home() {
                 variants={itemVariants}
                 whileHover={{ y: -10 }}
                 className={`relative rounded-2xl p-8 ${
-                  plan.popular ? "bg-primary text-primary-foreground shadow-xl" : "bg-card text-card-foreground border"
+                  plan.popular
+                    ? "bg-primary text-primary-foreground shadow-xl"
+                    : "bg-card text-card-foreground border"
                 }`}
               >
                 {plan.popular && (
@@ -375,7 +440,9 @@ export default function Home() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className={`w-full py-2 rounded-full ${
-                      plan.popular ? "bg-background text-foreground" : "bg-primary text-primary-foreground"
+                      plan.popular
+                        ? "bg-background text-foreground"
+                        : "bg-primary text-primary-foreground"
                     }`}
                   >
                     Get Started
@@ -386,8 +453,10 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
-      <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </div>
-  )
+  );
 }
-
