@@ -1,20 +1,26 @@
-import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import Header from "@/components/header"
-import BottomNav from "@/components/bottom-nav"
-import { LanguageProvider } from "@/components/language-provider"
-import ContactButton from "@/components/contact-button"
-import type React from "react"
+import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
+import Header from "@/components/header";
+import BottomNav from "@/components/bottom-nav";
+import { LanguageProvider } from "@/components/language-provider";
+import ContactButton from "@/components/contact-button";
+import type React from "react";
 
 export const metadata = {
   title: "Statprove - Digital Service Provider",
-  description: "Professional digital services including web development, UI/UX design, and branding.",
-}
+  description:
+    "Professional digital services including web development, UI/UX design, and branding.",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-32x32.png",
+    apple: "/apple-touch-icon.png",
+  },
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -31,6 +37,5 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }
-
