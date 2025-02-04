@@ -2,17 +2,23 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useForm } from "react-hook-form";
+import { useForm, FieldErrors } from "react-hook-form";
+
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
 
 export default function Contact() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormData>();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
   };
@@ -34,6 +40,7 @@ export default function Contact() {
         onSubmit={handleSubmit(onSubmit)}
         className="max-w-md mx-auto"
       >
+        {/* Name Field */}
         <div className="mb-4">
           <label htmlFor="name" className="block mb-2">
             Name
@@ -44,14 +51,12 @@ export default function Contact() {
             {...register("name", { required: "Name is required" })}
             className="w-full p-2 border rounded"
           />
-          {errors.name &&
-            typeof errors.name === "object" &&
-            "message" in errors.name && (
-              <span className="text-red-500 text-sm">
-                {errors.name.message}
-              </span>
-            )}
+          {errors.name?.message && (
+            <span className="text-red-500 text-sm">{errors.name.message}</span>
+          )}
         </div>
+
+        {/* Email Field */}
         <div className="mb-4">
           <label htmlFor="email" className="block mb-2">
             Email
@@ -68,14 +73,12 @@ export default function Contact() {
             })}
             className="w-full p-2 border rounded"
           />
-          {errors.email &&
-            typeof errors.email === "object" &&
-            "message" in errors.email && (
-              <span className="text-red-500 text-sm">
-                {errors.email.message}
-              </span>
-            )}
+          {errors.email?.message && (
+            <span className="text-red-500 text-sm">{errors.email.message}</span>
+          )}
         </div>
+
+        {/* Message Field */}
         <div className="mb-4">
           <label htmlFor="message" className="block mb-2">
             Message
@@ -86,14 +89,14 @@ export default function Contact() {
             className="w-full p-2 border rounded"
             rows={4}
           ></textarea>
-          {errors.message &&
-            typeof errors.message === "object" &&
-            "message" in errors.message && (
-              <span className="text-red-500 text-sm">
-                {errors.message.message}
-              </span>
-            )}
+          {errors.message?.message && (
+            <span className="text-red-500 text-sm">
+              {errors.message.message}
+            </span>
+          )}
         </div>
+
+        {/* Submit Button */}
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
