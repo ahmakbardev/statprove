@@ -12,14 +12,10 @@ export default function Contact() {
   } = useForm()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const onSubmit = async (data) => {
-    setIsSubmitting(true)
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    console.log(data)
-    setIsSubmitting(false)
-    // Here you would typically send the data to your backend
-  }
+  const onSubmit = async (data: any) => {
+    setIsSubmitting(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+  };
 
   return (
     <div className="container mx-auto px-4 py-12">
