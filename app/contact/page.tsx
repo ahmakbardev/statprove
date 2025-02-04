@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { useForm } from "react-hook-form"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
 
 export default function Contact() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  } = useForm();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = async (data: any) => {
     setIsSubmitting(true);
@@ -44,7 +44,13 @@ export default function Contact() {
             {...register("name", { required: "Name is required" })}
             className="w-full p-2 border rounded"
           />
-          {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
+          {errors.name &&
+            typeof errors.name === "object" &&
+            "message" in errors.name && (
+              <span className="text-red-500 text-sm">
+                {errors.name.message}
+              </span>
+            )}
         </div>
         <div className="mb-4">
           <label htmlFor="email" className="block mb-2">
@@ -62,7 +68,13 @@ export default function Contact() {
             })}
             className="w-full p-2 border rounded"
           />
-          {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
+          {errors.email &&
+            typeof errors.email === "object" &&
+            "message" in errors.email && (
+              <span className="text-red-500 text-sm">
+                {errors.email.message}
+              </span>
+            )}
         </div>
         <div className="mb-4">
           <label htmlFor="message" className="block mb-2">
@@ -74,7 +86,13 @@ export default function Contact() {
             className="w-full p-2 border rounded"
             rows={4}
           ></textarea>
-          {errors.message && <span className="text-red-500 text-sm">{errors.message.message}</span>}
+          {errors.message &&
+            typeof errors.message === "object" &&
+            "message" in errors.message && (
+              <span className="text-red-500 text-sm">
+                {errors.message.message}
+              </span>
+            )}
         </div>
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -87,6 +105,5 @@ export default function Contact() {
         </motion.button>
       </motion.form>
     </div>
-  )
+  );
 }
-
