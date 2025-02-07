@@ -146,70 +146,71 @@ export default function Home() {
   const pricingPlans = [
     {
       name: "Basic",
-      price: "$99",
-      period: "/month",
-      description: "Perfect for small businesses",
+      price: "Rp1.499.000",
+      period: "/bulan",
+      description: "Cocok untuk bisnis kecil",
       features: [
-        "Single Page Website",
-        "Responsive Design",
-        "Contact Form",
-        "Basic SEO",
+        "Website Satu Halaman",
+        "Desain Responsif",
+        "Formulir Kontak",
+        "SEO Dasar",
       ],
     },
     {
       name: "Professional",
-      price: "$199",
-      period: "/month",
-      description: "Great for growing businesses",
+      price: "Rp2.999.000",
+      period: "/bulan",
+      description: "Ideal untuk bisnis yang berkembang",
       features: [
-        "Up to 5 Pages",
-        "Responsive Design",
-        "Contact Form",
-        "Advanced SEO",
-        "Analytics Integration",
+        "Hingga 5 Halaman",
+        "Desain Responsif",
+        "Formulir Kontak",
+        "SEO Lanjutan",
+        "Integrasi Analytics",
       ],
     },
     {
       name: "Business",
-      price: "$299",
-      period: "/month",
-      description: "Best for established businesses",
+      price: "Rp4.499.000",
+      period: "/bulan",
+      description: "Terbaik untuk bisnis mapan",
       features: [
-        "Up to 10 Pages",
-        "Responsive Design",
-        "Advanced Forms",
-        "Premium SEO",
-        "Analytics Integration",
-        "E-commerce Ready",
+        "Hingga 10 Halaman",
+        "Desain Responsif",
+        "Formulir Lanjutan",
+        "SEO Premium",
+        "Integrasi Analytics",
+        "Siap E-commerce",
       ],
       popular: true,
     },
-    {
-      name: "Enterprise",
-      price: "$499",
-      period: "/month",
-      description: "Custom solutions for large organizations",
-      features: [
-        "Unlimited Pages",
-        "Custom Design",
-        "Advanced Features",
-        "Priority Support",
-        "Custom Integration",
-        "E-commerce Ready",
-      ],
-    },
+    // {
+    //   name: "Enterprise",
+    //   price: "Rp7.499.000",
+    //   period: "/bulan",
+    //   description: "Solusi khusus untuk organisasi besar",
+    //   features: [
+    //     "Halaman Tak Terbatas",
+    //     "Desain Kustom",
+    //     "Fitur Lanjutan",
+    //     "Dukungan Prioritas",
+    //     "Integrasi Kustom",
+    //     "Siap E-commerce",
+    //   ],
+    // },
     {
       name: "Custom",
-      price: "Contact Us",
+      price: "Hubungi Kami",
       period: "",
-      description: "Tailored solutions for unique requirements",
+      description:
+        "Mau lebih murah? Hubungi kami!",
       features: [
-        "Fully Customized Solution",
-        "Dedicated Project Manager",
-        "Bespoke Design and Development",
-        "Advanced Security Features",
-        "24/7 Priority Support",
-        "Scalable Infrastructure",
+        "Solusi Sepenuhnya Kustom",
+        "Manajer Proyek Dedikasi",
+        "Desain & Pengembangan Eksklusif",
+        "Fitur Keamanan Tingkat Lanjut",
+        "Dukungan Prioritas 24/7",
+        "Infrastruktur Skalabel",
       ],
     },
   ];
@@ -416,7 +417,7 @@ export default function Home() {
               {t("pricing.subtitle")}
             </p>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {pricingPlans.map((plan, index) => (
               <motion.div
                 key={plan.name}
