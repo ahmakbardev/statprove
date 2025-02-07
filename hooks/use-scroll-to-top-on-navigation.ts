@@ -1,27 +1,30 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 export const useScrollToTopOnNavigation = () => {
-  const searchParams = useSearchParams();
-  const hasMounted = useRef(false); // Untuk memastikan tidak error di SSR
-
-  const handleRouteChange = useCallback(() => {
-    if (typeof window !== "undefined") {
-      window.scrollTo(0, 0);
-    }
-  }, []);
+  const [mounted, setMounted] = useState(false);
+  const searchParams = typeof window !== "undefined" ? useSearchParams() : null;
 
   useEffect(() => {
-    if (!hasMounted.current) {
-      hasMounted.current = true;
-      setTimeout(handleRouteChange, 0); // Pastikan berjalan setelah hydration
+    if (!mounted) {
+      setMounted(true);
+      return;
     }
 
+    const handleRouteChange = () => {
+      window.scrollTo(0, 0);
+    };
+
+    // Panggil scroll ke atas setelah render
+    handleRouteChange();
+
+    // Event listener untuk navigasi history
     window.addEventListener("popstate", handleRouteChange);
+
     return () => {
       window.removeEventListener("popstate", handleRouteChange);
     };
-  }, [searchParams, handleRouteChange]);
+  }, [searchParams, mounted]);
 };
