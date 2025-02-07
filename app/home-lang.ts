@@ -1,7 +1,7 @@
 export const homeLang = {
     en: {
-      "hero.title": "Elevate Your Digital Presence",
-      "hero.subtitle": "Professional web development, UI/UX design, and branding services.",
+      "hero.title": "Create. Innovate. Transform.",
+      "hero.subtitle": "We help businesses transform their digital presence with modern web solutions and innovative design strategies.",
       "hero.cta": "Get Started",
       "featured.title": "Featured Work",
       "featured.subtitle": "Explore our latest projects and see how we've helped businesses achieve their goals.",
@@ -11,8 +11,8 @@ export const homeLang = {
       "pricing.subtitle": "Choose the perfect plan for your needs. All plans include our core features.",
     },
     id: {
-      "hero.title": "Tingkatkan Kehadiran Digital Anda",
-      "hero.subtitle": "Layanan pengembangan web profesional, desain UI/UX, dan branding.",
+      "hero.title": "Rancang. Buat. Wujudkan.",
+      "hero.subtitle": "Kami membantu bisnis mengubah kehadiran digital mereka dengan solusi web modern dan strategi desain yang inovatif.",
       "hero.cta": "Mulai Sekarang",
       "featured.title": "Karya Unggulan",
       "featured.subtitle":
