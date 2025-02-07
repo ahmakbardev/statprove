@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { MessageCircle, X, Phone, Send } from "lucide-react"
-import { useLanguage } from "./language-provider"
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { MessageCircle, X, Phone, Send } from "lucide-react";
+import { useLanguage } from "./language-provider";
 
 export default function ContactButton() {
-  const [isOpen, setIsOpen] = useState(false)
-  const { t } = useLanguage()
+  const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguage();
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // Handle form submission
-    setIsOpen(false)
-  }
+    setIsOpen(false);
+  };
 
   const openWhatsApp = () => {
-    window.open("https://wa.me/your-number-here", "_blank")
-  }
+    window.open("https://wa.me/your-number-here", "_blank");
+  };
 
   return (
     <>
@@ -52,30 +52,53 @@ export default function ContactButton() {
               <div className="p-6 space-y-6">
                 <div className="flex justify-between items-center">
                   <h2 className="text-2xl font-bold">Contact Us</h2>
-                  <button onClick={() => setIsOpen(false)} className="p-2 rounded-full hover:bg-accent">
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="p-2 rounded-full hover:bg-accent"
+                  >
                     <X size={20} />
                   </button>
                 </div>
 
                 <p className="text-muted-foreground">
-                  Fill out the form below and we'll get back to you as soon as possible.
+                  Fill out the form below and we'll get back to you as soon as
+                  possible.
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium mb-1">
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium mb-1"
+                    >
                       Name
                     </label>
-                    <input type="text" id="name" className="w-full p-2 border rounded-md bg-background" required />
+                    <input
+                      type="text"
+                      id="name"
+                      className="w-full p-2 border rounded-md bg-background"
+                      required
+                    />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium mb-1">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium mb-1"
+                    >
                       Email
                     </label>
-                    <input type="email" id="email" className="w-full p-2 border rounded-md bg-background" required />
+                    <input
+                      type="email"
+                      id="email"
+                      className="w-full p-2 border rounded-md bg-background"
+                      required
+                    />
                   </div>
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium mb-1">
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium mb-1"
+                    >
                       Message
                     </label>
                     <textarea
@@ -113,6 +136,5 @@ export default function ContactButton() {
         )}
       </AnimatePresence>
     </>
-  )
+  );
 }
-
