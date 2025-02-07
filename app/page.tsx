@@ -147,7 +147,7 @@ export default function Home() {
     {
       name: "Basic",
       price: "Rp1.499.000",
-      period: "/bulan",
+      period: "/projek",
       description: "Cocok untuk bisnis kecil",
       features: [
         "Website Satu Halaman",
@@ -159,7 +159,7 @@ export default function Home() {
     {
       name: "Professional",
       price: "Rp2.999.000",
-      period: "/bulan",
+      period: "/projek",
       description: "Ideal untuk bisnis yang berkembang",
       features: [
         "Hingga 5 Halaman",
@@ -172,7 +172,7 @@ export default function Home() {
     {
       name: "Business",
       price: "Rp4.499.000",
-      period: "/bulan",
+      period: "/projek",
       description: "Terbaik untuk bisnis mapan",
       features: [
         "Hingga 10 Halaman",
