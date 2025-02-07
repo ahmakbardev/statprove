@@ -1,25 +1,28 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Code, Palette, Briefcase } from "lucide-react"
+import { motion } from "framer-motion";
+import { Code, Palette, Briefcase } from "lucide-react";
 
 const services = [
   {
     title: "Web Development",
-    description: "Custom websites and web applications built with the latest technologies.",
+    description:
+      "Custom websites and web applications built with the latest technologies.",
     icon: Code,
   },
   {
     title: "UI/UX Design",
-    description: "User-centered design that creates intuitive and engaging digital experiences.",
+    description:
+      "User-centered design that creates intuitive and engaging digital experiences.",
     icon: Palette,
   },
   {
     title: "Branding",
-    description: "Comprehensive branding solutions to establish a strong market presence.",
+    description:
+      "Comprehensive branding solutions to establish a strong market presence.",
     icon: Briefcase,
   },
-]
+];
 
 export default function Services() {
   return (
@@ -43,11 +46,12 @@ export default function Services() {
           >
             <service.icon className="w-12 h-12 text-primary mb-4" />
             <h2 className="text-xl font-semibold mb-2">{service.title}</h2>
-            <p className="text-gray-600 dark:text-gray-400">{service.description}</p>
+            <p className="text-gray-600 dark:text-gray-400">
+              {service.description}
+            </p>
           </motion.div>
         ))}
       </div>
     </div>
-  )
+  );
 }
-

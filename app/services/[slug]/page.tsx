@@ -6,18 +6,35 @@ import { Check } from "lucide-react";
 import Image from "next/image";
 import { services } from "@/lib/services-data";
 import Link from "next/link";
+import { useLanguage } from "@/components/language-provider";
+import { notFound } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function ServicePage() {
   const params = useParams();
+  const { language } = useLanguage();
+  const slug = params?.slug as string | undefined;
+  const [service, setService] = useState<{
+    title: string;
+    description: string;
+    shortDesc: string;
+    image: string;
+    features: string[];
+    process: { title: string; description: string }[];
+    pricing: { name: string; price: string; features: string[] }[];
+  } | null>(null);
 
-  if (!params || !params.slug) {
-    return null; // Bisa diganti dengan loading indicator jika diperlukan
+  useEffect(() => {
+    if (slug && services.hasOwnProperty(slug)) {
+      setService(services[slug as keyof typeof services][language]);
+    } else {
+      notFound();
+    }
+  }, [slug, language]);
+
+  if (!service) {
+    return null; // Bisa ganti dengan spinner/loading
   }
-
-  const slug = params.slug as string;
-  const service = services[slug as keyof typeof services];
-
-  if (!service) return null;
 
   const containerVariants = {
     hidden: { opacity: 0 },

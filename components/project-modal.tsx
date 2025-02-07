@@ -1,27 +1,29 @@
-import { motion, AnimatePresence } from "framer-motion"
-import { X } from "lucide-react"
-import Image from "next/image"
+"use client";
+
+import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
+import Image from "next/image";
 
 interface Technology {
-  name: string
-  color?: string
+  name: string;
+  color?: string;
 }
 
 interface Project {
-  title: string
-  category: string
-  description: string
-  image: string
-  technologies: Technology[]
+  title: string;
+  category: string;
+  description: string;
+  image: string;
+  technologies: Technology[];
 }
 
 interface ProjectModalProps {
-  project: Project | null
-  onClose: () => void
+  project: Project | null;
+  onClose: () => void;
 }
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
-  if (!project) return null
+  if (!project) return null;
 
   return (
     <AnimatePresence>
@@ -47,7 +49,12 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               <X size={20} />
             </button>
             <div className="aspect-video relative">
-              <Image src={project.image || "/placeholder.svg"} alt={project.title} fill className="object-cover" />
+              <Image
+                src={project.image || "/placeholder.svg"}
+                alt={project.title}
+                fill
+                className="object-cover"
+              />
             </div>
           </div>
           <div className="p-6 space-y-4">
@@ -55,10 +62,15 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               <h3 className="text-2xl font-bold">{project.title}</h3>
               <p className="text-muted-foreground">{project.category}</p>
             </div>
-            <p className="text-gray-600 dark:text-gray-400">{project.description}</p>
+            <p className="text-gray-600 dark:text-gray-400">
+              {project.description}
+            </p>
             <div className="flex flex-wrap gap-2">
               {project.technologies.map((tech) => (
-                <span key={tech.name} className="px-3 py-1 rounded-full text-sm bg-secondary">
+                <span
+                  key={tech.name}
+                  className="px-3 py-1 rounded-full text-sm bg-secondary"
+                >
                   {tech.name}
                 </span>
               ))}
@@ -67,6 +79,5 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         </motion.div>
       </motion.div>
     </AnimatePresence>
-  )
+  );
 }
-

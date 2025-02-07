@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { X } from "lucide-react"
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
 
 export default function NewsletterPopup() {
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsVisible(true)
-    }, 5000) // Show popup after 5 seconds
+      setIsVisible(true);
+    }, 5000); // Show popup after 5 seconds
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleClose = () => {
-    setIsVisible(false)
-  }
+    setIsVisible(false);
+  };
 
   return (
     <AnimatePresence>
@@ -35,10 +35,19 @@ export default function NewsletterPopup() {
           >
             <X size={20} />
           </button>
-          <h3 className="text-xl font-semibold mb-2">Subscribe to Our Newsletter</h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">Stay updated with our latest news and offers!</p>
+          <h3 className="text-xl font-semibold mb-2">
+            Subscribe to Our Newsletter
+          </h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            Stay updated with our latest news and offers!
+          </p>
           <form className="space-y-2">
-            <input type="email" placeholder="Your email address" className="w-full p-2 border rounded" required />
+            <input
+              type="email"
+              placeholder="Your email address"
+              className="w-full p-2 border rounded"
+              required
+            />
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -51,6 +60,5 @@ export default function NewsletterPopup() {
         </motion.div>
       )}
     </AnimatePresence>
-  )
+  );
 }
-

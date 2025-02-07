@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/components/language-provider";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import ProjectModal from "@/components/project-modal";
-import { Check } from "lucide-react";
+import { homeLang } from "./home-lang";
 
 const MotionImage = motion(Image);
 
@@ -51,16 +51,17 @@ const featuredProjects = [
 ];
 
 export default function Home() {
-  const { t } = useLanguage();
-  interface Project {
+  const { language } = useLanguage();
+  const t = (key: keyof (typeof homeLang)[typeof language]) =>
+    homeLang[language][key] || key;
+
+  const [selectedProject, setSelectedProject] = useState<{
     title: string;
     category: string;
     description: string;
     image: string;
     technologies: { name: string }[];
-  }
-
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  } | null>(null);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -197,6 +198,20 @@ export default function Home() {
         "E-commerce Ready",
       ],
     },
+    {
+      name: "Custom",
+      price: "Contact Us",
+      period: "",
+      description: "Tailored solutions for unique requirements",
+      features: [
+        "Fully Customized Solution",
+        "Dedicated Project Manager",
+        "Bespoke Design and Development",
+        "Advanced Security Features",
+        "24/7 Priority Support",
+        "Scalable Infrastructure",
+      ],
+    },
   ];
 
   return (
@@ -240,23 +255,13 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto text-center space-y-8"
           >
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-primary font-medium"
-            >
-              Welcome to Statprove
-            </motion.p>
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
               className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight"
             >
-              Create. Innovate.
-              <br />
-              <span className="text-primary">Transform.</span>
+              {t("hero.title")}
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
@@ -264,8 +269,7 @@ export default function Home() {
               transition={{ delay: 0.6 }}
               className="text-xl text-muted-foreground max-w-2xl mx-auto"
             >
-              We help businesses transform their digital presence with modern
-              web solutions and innovative design strategies.
+              {t("hero.subtitle")}
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -278,14 +282,14 @@ export default function Home() {
                 whileTap={{ scale: 0.95 }}
                 className="group bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-medium inline-flex items-center gap-2 hover:gap-4 transition-all"
               >
-                Get Started
+                {t("hero.cta")}
                 <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
               </motion.button>
               <Link
                 href="/portfolio"
                 className="text-muted-foreground hover:text-primary transition-colors font-medium"
               >
-                View Our Work
+                {t("featured.title")}
               </Link>
             </motion.div>
           </motion.div>
@@ -404,7 +408,7 @@ export default function Home() {
               {t("pricing.subtitle")}
             </p>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
             {pricingPlans.map((plan, index) => (
               <motion.div
                 key={plan.name}

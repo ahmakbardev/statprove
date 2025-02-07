@@ -1,34 +1,66 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Check } from "lucide-react"
+import { motion } from "framer-motion";
+import { Check, X } from "lucide-react";
+import { useLanguage } from "@/components/language-provider";
+import { pricingLang } from "./pricing-lang";
 
 const pricingPlans = [
   {
     name: "Basic",
     price: "$99",
-    features: ["5 pages website", "Basic SEO", "Mobile responsive", "1 month support"],
+    period: "monthly",
+    description: "Perfect for small businesses",
+    features: [
+      { name: "5 pages website", included: true },
+      { name: "Responsive design", included: true },
+      { name: "Basic SEO optimization", included: true },
+      { name: "Contact form", included: true },
+      { name: "1 month of support", included: true },
+      { name: "Custom domain", included: false },
+      { name: "E-commerce functionality", included: false },
+      { name: "Advanced analytics", included: false },
+    ],
   },
   {
-    name: "Pro",
+    name: "Professional",
     price: "$199",
-    features: ["10 pages website", "Advanced SEO", "Mobile responsive", "E-commerce integration", "3 months support"],
+    period: "monthly",
+    description: "Great for growing businesses",
+    features: [
+      { name: "10 pages website", included: true },
+      { name: "Responsive design", included: true },
+      { name: "Advanced SEO optimization", included: true },
+      { name: "Contact form", included: true },
+      { name: "3 months of support", included: true },
+      { name: "Custom domain", included: true },
+      { name: "Basic e-commerce (up to 20 products)", included: true },
+      { name: "Advanced analytics", included: true },
+    ],
+    popular: true,
   },
   {
     name: "Enterprise",
     price: "Custom",
+    period: "",
+    description: "Tailored solutions for large organizations",
     features: [
-      "Unlimited pages",
-      "Full SEO package",
-      "Mobile responsive",
-      "E-commerce integration",
-      "Custom features",
-      "1 year support",
+      { name: "Unlimited pages", included: true },
+      { name: "Responsive design", included: true },
+      { name: "Advanced SEO optimization", included: true },
+      { name: "Advanced forms and integrations", included: true },
+      { name: "1 year of priority support", included: true },
+      { name: "Custom domain with SSL", included: true },
+      { name: "Full e-commerce solution", included: true },
+      { name: "Custom analytics and reporting", included: true },
     ],
   },
-]
+];
 
 export default function Pricing() {
+  const { language } = useLanguage();
+  const t = (key: string) => pricingLang[language][key] || key;
+
   return (
     <div className="container mx-auto px-4 py-12">
       <motion.h1
@@ -37,38 +69,69 @@ export default function Pricing() {
         transition={{ duration: 0.5 }}
         className="text-3xl md:text-4xl font-bold mb-8 text-center"
       >
-        Pricing Plans
+        {t("title")}
       </motion.h1>
+      <p className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
+        {t("subtitle")}
+      </p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {pricingPlans.map((plan, index) => (
           <motion.div
-            key={index}
+            key={plan.name}
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg"
+            className={`relative rounded-2xl p-8 ${
+              plan.popular
+                ? "bg-primary text-primary-foreground shadow-xl"
+                : "bg-card text-card-foreground border"
+            }`}
           >
-            <h2 className="text-2xl font-semibold mb-4">{plan.name}</h2>
-            <p className="text-4xl font-bold mb-6">{plan.price}</p>
-            <ul className="space-y-2 mb-6">
-              {plan.features.map((feature, featureIndex) => (
-                <li key={featureIndex} className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-2" />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full bg-primary text-primary-foreground py-2 rounded-full hover:bg-primary/90 transition-colors"
-            >
-              Choose Plan
-            </motion.button>
+            {plan.popular && (
+              <span className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-secondary text-secondary-foreground px-4 py-1 rounded-full text-sm font-medium">
+                {t("mostPopular")}
+              </span>
+            )}
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold">{plan.name}</h2>
+              <div className="flex items-baseline">
+                <span className="text-4xl font-bold">{plan.price}</span>
+                <span className="text-sm ml-2 opacity-80">
+                  {plan.period ? t(plan.period) : ""}
+                </span>
+              </div>
+              <p className="text-sm opacity-80">{plan.description}</p>
+              <ul className="space-y-3">
+                {plan.features.map((feature) => (
+                  <li key={feature.name} className="flex items-center">
+                    {feature.included ? (
+                      <Check className="w-5 h-5 mr-2 text-green-500" />
+                    ) : (
+                      <X className="w-5 h-5 mr-2 text-red-500" />
+                    )}
+                    <span
+                      className={`text-sm ${!feature.included && "opacity-50"}`}
+                    >
+                      {feature.name}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`w-full py-2 rounded-full ${
+                  plan.popular
+                    ? "bg-white text-primary"
+                    : "bg-primary text-primary-foreground"
+                }`}
+              >
+                {t("getStarted")}
+              </motion.button>
+            </div>
           </motion.div>
         ))}
       </div>
     </div>
-  )
+  );
 }
-

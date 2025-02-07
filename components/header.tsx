@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import { useLanguage } from "./language-provider";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sun, Moon, Globe, ChevronDown, Menu } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { services } from "@/lib/services-data";
 
@@ -16,6 +16,15 @@ const Header = () => {
   const [showServicesMenu, setShowServicesMenu] = useState(false);
   const [hoveredService, setHoveredService] = useState<string | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  const imageSrc =
+    hoveredService && typeof services[hoveredService]?.image === "string"
+      ? services[hoveredService].image
+      : "/placeholder.svg";
 
   return (
     <motion.header
@@ -32,6 +41,9 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-4">
+          <Link href="/" className="hover:text-primary transition-colors">
+            {t("nav.home")}
+          </Link>
           <div className="relative">
             <button
               onMouseEnter={() => setShowServicesMenu(true)}
@@ -52,14 +64,10 @@ const Header = () => {
                 >
                   <div className="relative aspect-square rounded-lg overflow-hidden">
                     <Image
-                      src={
-                        hoveredService
-                          ? services[hoveredService as keyof typeof services]
-                              ?.image
-                          : "/placeholder.svg?height=400&width=400"
-                      }
+                      src={imageSrc}
                       alt="Service preview"
-                      fill
+                      width={400}
+                      height={400}
                       className="object-cover transition-all duration-300"
                     />
                   </div>
@@ -73,9 +81,9 @@ const Header = () => {
                         onClick={() => setShowServicesMenu(false)}
                       >
                         <div className="p-3 rounded-lg hover:bg-accent transition-colors">
-                          <h3 className="font-medium">{service.title}</h3>
+                          <h3 className="font-medium">{service.en.title}</h3>
                           <p className="text-sm text-muted-foreground">
-                            {service.shortDesc}
+                            {service.en.shortDesc}
                           </p>
                         </div>
                       </Link>
@@ -91,11 +99,8 @@ const Header = () => {
           >
             {t("nav.portfolio")}
           </Link>
-          <Link
-            href="/pricing"
-            className="hover:text-primary transition-colors"
-          >
-            {t("nav.pricing")}
+          <Link href="/about" className="hover:text-primary transition-colors">
+            {t("nav.about")}
           </Link>
           <Link
             href="/contact"
@@ -127,6 +132,9 @@ const Header = () => {
                 className="bg-background rounded-lg shadow-lg border p-4 space-y-2"
                 onClick={() => setShowMobileMenu(false)}
               >
+                <Link href="/" className="block p-2 hover:bg-accent rounded-md">
+                  {t("nav.home")}
+                </Link>
                 <Link
                   href="/services"
                   className="block p-2 hover:bg-accent rounded-md"
@@ -140,10 +148,10 @@ const Header = () => {
                   {t("nav.portfolio")}
                 </Link>
                 <Link
-                  href="/pricing"
+                  href="/about"
                   className="block p-2 hover:bg-accent rounded-md"
                 >
-                  {t("nav.pricing")}
+                  {t("nav.about")}
                 </Link>
                 <Link
                   href="/contact"
@@ -157,14 +165,17 @@ const Header = () => {
         </AnimatePresence>
 
         <div className="flex items-center space-x-2">
-          <motion.button
-            whileHover={{ scale: 1.1, rotate: 15 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-          >
-            {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-          </motion.button>
+          {/* Tombol Ganti Tema */}
+          {mounted && (
+            <motion.button
+              whileHover={{ scale: 1.1, rotate: 15 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            >
+              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+            </motion.button>
+          )}
           <div className="relative">
             <motion.button
               whileHover={{ scale: 1.1 }}
