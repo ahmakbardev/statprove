@@ -9,9 +9,13 @@ import NavigationProgress from "@/components/navigation-progress";
 import PageTransition from "@/components/page-transition";
 import ScrollToTop from "@/components/scroll-to-top";
 import ContentLoader from "@/components/content-loader";
+import Toast from "@/components/toast";
+import { useToast } from "@/hooks/use-toast";
 import type React from "react";
+import type { Metadata } from "next";
+import ClientLayout from "@/components/client-layout";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Statprove - Digital Service Provider",
   description:
     "Professional digital services including web development, UI/UX design, and branding.",
@@ -30,23 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <LanguageProvider>
-            <ScrollToTop />
-            <PageTransition>
-              <div className="flex flex-col min-h-screen">
-                <Header />
-                <ContentLoader>
-                  <main className="flex-grow pb-16 md:pb-0">{children}</main>
-                  <Footer />
-                </ContentLoader>
-                <BottomNav />
-                <ContactButton />
-              </div>
-            </PageTransition>
-            <NavigationProgress />
-          </LanguageProvider>
-        </ThemeProvider>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

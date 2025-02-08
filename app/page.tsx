@@ -8,6 +8,7 @@ import Image from "next/image";
 import { ArrowRight, Check } from "lucide-react";
 import ProjectModal from "@/components/project-modal";
 import { homeLang } from "./home-lang";
+import GetStartedModal from "@/components/get-started-modal";
 
 const MotionImage = motion(Image);
 
@@ -54,6 +55,10 @@ export default function Home() {
   const { language } = useLanguage();
   const t = (key: keyof (typeof homeLang)[typeof language]) =>
     homeLang[language][key] || key;
+  const [isGetStartedModalOpen, setIsGetStartedModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<string | undefined>(
+    undefined
+  );
 
   const [selectedProject, setSelectedProject] = useState<{
     title: string;
@@ -274,6 +279,10 @@ export default function Home() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  setSelectedPlan(undefined);
+                  setIsGetStartedModalOpen(true);
+                }}
                 className="group bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-medium inline-flex items-center gap-2 hover:gap-4 transition-all"
               >
                 {t("hero.cta")}
@@ -395,8 +404,12 @@ export default function Home() {
           className="text-center space-y-12"
         >
           <motion.div variants={itemVariants} className="space-y-4">
-            <h2 className="text-3xl md:text-4xl font-bold">{t("pricing.title")}</h2>
-            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{t("pricing.subtitle")}</p>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              {t("pricing.title")}
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              {t("pricing.subtitle")}
+            </p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {pricingPlans.map((plan, index) => (
@@ -405,7 +418,9 @@ export default function Home() {
                 variants={itemVariants}
                 whileHover={{ y: -10 }}
                 className={`relative rounded-2xl p-8 ${
-                  plan.popular ? "bg-primary text-primary-foreground shadow-xl" : "bg-card text-card-foreground border"
+                  plan.popular
+                    ? "bg-primary text-primary-foreground shadow-xl"
+                    : "bg-card text-card-foreground border"
                 }`}
               >
                 {plan.popular && (
@@ -431,8 +446,14 @@ export default function Home() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      setSelectedPlan(plan.name);
+                      setIsGetStartedModalOpen(true);
+                    }}
                     className={`w-full py-2 rounded-full mt-4 ${
-                      plan.popular ? "bg-background text-foreground" : "bg-primary text-primary-foreground"
+                      plan.popular
+                        ? "bg-background text-foreground"
+                        : "bg-primary text-primary-foreground"
                     }`}
                   >
                     Get Started
@@ -446,6 +467,11 @@ export default function Home() {
       <ProjectModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}
+      />
+      <GetStartedModal
+        isOpen={isGetStartedModalOpen}
+        onClose={() => setIsGetStartedModalOpen(false)}
+        selectedPlan={selectedPlan}
       />
     </div>
   );
