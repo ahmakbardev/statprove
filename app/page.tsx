@@ -202,8 +202,7 @@ export default function Home() {
       name: "Custom",
       price: "Hubungi Kami",
       period: "",
-      description:
-        "Mau lebih murah? Hubungi kami!",
+      description: "Mau lebih murah? Hubungi kami!",
       features: [
         "Solusi Sepenuhnya Kustom",
         "Manajer Proyek Dedikasi",
@@ -224,66 +223,52 @@ export default function Home() {
         {/* Animated background elements */}
         <motion.div
           animate={{
-            scale: [1, 1.2, 1],
+            scale: [1, 1.1, 1],
             rotate: [0, 180, 0],
-            opacity: [0.3, 0.2, 0.3],
+            opacity: [0.2, 0.15, 0.2],
           }}
           transition={{
-            duration: 20,
+            duration: 30,
             repeat: Number.POSITIVE_INFINITY,
             ease: "linear",
           }}
-          className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/20 rounded-full blur-3xl"
+          className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/80 rounded-full blur-3xl"
         />
         <motion.div
           animate={{
-            scale: [1.2, 1, 1.2],
+            scale: [1.1, 1, 1.1],
             rotate: [180, 0, 180],
-            opacity: [0.3, 0.2, 0.3],
+            opacity: [0.2, 0.15, 0.2],
           }}
           transition={{
-            duration: 25,
+            duration: 35,
             repeat: Number.POSITIVE_INFINITY,
             ease: "linear",
           }}
-          className="absolute -bottom-32 -right-32 w-96 h-96 bg-secondary/20 rounded-full blur-3xl"
+          className="absolute -bottom-32 -right-32 w-96 h-96 bg-secondary/80 rounded-full blur-3xl"
         />
 
         <div className="container mx-auto px-4 relative">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
             className="max-w-4xl mx-auto text-center space-y-8"
           >
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-primary font-medium"
-            >
-              Welcome to Statprove
-            </motion.p>
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
+              variants={itemVariants}
               className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight"
             >
               {t("hero.title")}
             </motion.h1>
             <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
+              variants={itemVariants}
               className="text-xl text-muted-foreground max-w-2xl mx-auto"
             >
               {t("hero.subtitle")}
             </motion.p>
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
+              variants={itemVariants}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
               <motion.button
@@ -410,12 +395,8 @@ export default function Home() {
           className="text-center space-y-12"
         >
           <motion.div variants={itemVariants} className="space-y-4">
-            <h2 className="text-3xl md:text-4xl font-bold">
-              {t("pricing.title")}
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              {t("pricing.subtitle")}
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold">{t("pricing.title")}</h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{t("pricing.subtitle")}</p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {pricingPlans.map((plan, index) => (
@@ -424,9 +405,7 @@ export default function Home() {
                 variants={itemVariants}
                 whileHover={{ y: -10 }}
                 className={`relative rounded-2xl p-8 ${
-                  plan.popular
-                    ? "bg-primary text-primary-foreground shadow-xl"
-                    : "bg-card text-card-foreground border"
+                  plan.popular ? "bg-primary text-primary-foreground shadow-xl" : "bg-card text-card-foreground border"
                 }`}
               >
                 {plan.popular && (
@@ -434,14 +413,14 @@ export default function Home() {
                     Popular
                   </span>
                 )}
-                <div className="space-y-4">
+                <div className="space-y-4 h-full flex flex-col">
                   <h3 className="text-2xl font-bold">{plan.name}</h3>
                   <div className="flex items-baseline justify-center">
                     <span className="text-4xl font-bold">{plan.price}</span>
                     <span className="text-sm opacity-80">{plan.period}</span>
                   </div>
                   <p className="text-sm opacity-80">{plan.description}</p>
-                  <ul className="space-y-3 text-left">
+                  <ul className="space-y-3 text-left flex-grow">
                     {plan.features.map((feature) => (
                       <li key={feature} className="flex items-center">
                         <Check className="w-5 h-5 mr-2 flex-shrink-0" />
@@ -452,10 +431,8 @@ export default function Home() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`w-full py-2 rounded-full ${
-                      plan.popular
-                        ? "bg-background text-foreground"
-                        : "bg-primary text-primary-foreground"
+                    className={`w-full py-2 rounded-full mt-4 ${
+                      plan.popular ? "bg-background text-foreground" : "bg-primary text-primary-foreground"
                     }`}
                   >
                     Get Started
