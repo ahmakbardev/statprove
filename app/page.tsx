@@ -9,6 +9,7 @@ import { ArrowRight, Check } from "lucide-react";
 import ProjectModal from "@/components/project-modal";
 import { homeLang } from "./home-lang";
 import GetStartedModal from "@/components/get-started-modal";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 const MotionImage = motion(Image);
 
@@ -59,6 +60,7 @@ export default function Home() {
   const [selectedPlan, setSelectedPlan] = useState<string | undefined>(
     undefined
   );
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const [selectedProject, setSelectedProject] = useState<{
     title: string;
@@ -226,32 +228,36 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5" />
 
         {/* Animated background elements */}
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-            rotate: [0, 180, 0],
-            opacity: [0.2, 0.15, 0.2],
-          }}
-          transition={{
-            duration: 30,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-          }}
-          className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/80 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{
-            scale: [1.1, 1, 1.1],
-            rotate: [180, 0, 180],
-            opacity: [0.2, 0.15, 0.2],
-          }}
-          transition={{
-            duration: 35,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-          }}
-          className="absolute -bottom-32 -right-32 w-96 h-96 bg-secondary/80 rounded-full blur-3xl"
-        />
+        {isDesktop && (
+          <>
+            <motion.div
+              animate={{
+                scale: [1, 1.1, 1],
+                rotate: [0, 180, 0],
+                opacity: [0.2, 0.15, 0.2],
+              }}
+              transition={{
+                duration: 30,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "linear",
+              }}
+              className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/20 rounded-full blur-3xl"
+            />
+            <motion.div
+              animate={{
+                scale: [1.1, 1, 1.1],
+                rotate: [180, 0, 180],
+                opacity: [0.2, 0.15, 0.2],
+              }}
+              transition={{
+                duration: 35,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "linear",
+              }}
+              className="absolute -bottom-32 -right-32 w-96 h-96 bg-secondary/20 rounded-full blur-3xl"
+            />
+          </>
+        )}
 
         <div className="container mx-auto px-4 relative">
           <motion.div

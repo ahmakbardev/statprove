@@ -9,9 +9,11 @@ import {
   PhoneIcon as WhatsApp,
   ChevronLeft,
   ChevronRight,
+  MessageSquare,
 } from "lucide-react";
 import { useLanguage } from "./language-provider";
 import { useToast } from "@/contexts/toast-context";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface GetStartedModalProps {
   isOpen: boolean;
@@ -84,6 +86,8 @@ export default function GetStartedModal({
   const { t } = useLanguage();
   const { showToast } = useToast();
   const [step, setStep] = useState<"form" | "date" | "time">("form");
+  const [activeTab, setActiveTab] = useState<"form" | "schedule">("form");
+  const [scheduleStep, setScheduleStep] = useState<"date" | "time">("date");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -93,6 +97,7 @@ export default function GetStartedModal({
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [customTime, setCustomTime] = useState<string>("");
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const isMobile = useMediaQuery("(max-width: 640px)");
 
   // Get time slots based on selected plan
   const timeSlots =
@@ -209,232 +214,510 @@ export default function GetStartedModal({
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-background rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-background rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden"
           >
-            <div className="flex flex-col md:flex-row">
-              {/* Left side - Form */}
-              <div className="flex-1 p-6 md:p-8">
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-bold">
-                    {selectedPlan
-                      ? `Get Started with ${selectedPlan}`
-                      : "Get Started"}
-                  </h2>
-                  <button
-                    onClick={onClose}
-                    className="text-gray-500 hover:text-gray-700"
-                  >
-                    <X size={24} />
-                  </button>
-                </div>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-sm font-medium mb-1"
-                    >
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border rounded-md"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium mb-1"
-                    >
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border rounded-md"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-sm font-medium mb-1"
-                    >
-                      Message
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      rows={4}
-                      className="w-full p-2 border rounded-md"
-                      required
-                    ></textarea>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <button
-                      type="submit"
-                      className="bg-primary text-primary-foreground px-4 py-2 rounded-md flex items-center"
-                    >
-                      <Send className="w-5 h-5 mr-2" />
-                      Send Message
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleWhatsApp}
-                      className="bg-green-500 text-white px-4 py-2 rounded-md flex items-center"
-                    >
-                      <WhatsApp className="w-5 h-5 mr-2" />
-                      WhatsApp
-                    </button>
-                  </div>
-                </form>
+            <div className="flex flex-col h-full">
+              <div className="flex justify-between items-center p-4 border-b">
+                <h2 className="text-xl font-bold">
+                  {selectedPlan
+                    ? `Get Started with ${selectedPlan}`
+                    : "Get Started"}
+                </h2>
+                <button
+                  onClick={onClose}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <X size={24} />
+                </button>
               </div>
 
-              {/* Right side - Meeting scheduling */}
-              <div className="flex-1 bg-gray-100 dark:bg-gray-800 p-6 md:p-8">
-                <h3 className="text-xl font-semibold mb-4">
-                  Schedule a Meeting
-                </h3>
-                {step === "form" && (
-                  <div>
-                    <p className="mb-4">
-                      Would you like to schedule a {meetingDuration}{" "}
-                      consultation with our team to discuss your {selectedPlan}{" "}
-                      plan?
-                    </p>
+              {isMobile ? (
+                <>
+                  <div className="flex border-b relative mb-4">
+                    <div
+                      className="absolute bottom-0 left-0 h-1 bg-primary transition-all duration-300 ease-in-out"
+                      style={{
+                        width: "50%",
+                        transform: `translateX(${
+                          activeTab === "form" ? "0%" : "100%"
+                        })`,
+                      }}
+                    />
                     <button
-                      onClick={() => setStep("date")}
-                      className="bg-secondary text-secondary-foreground px-4 py-2 rounded-md flex items-center"
-                    >
-                      <Calendar className="w-5 h-5 mr-2" />
-                      Schedule Meeting
-                    </button>
-                  </div>
-                )}
-                {step === "date" && (
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <button onClick={() => changeMonth(-1)} className="p-2">
-                        <ChevronLeft size={24} />
-                      </button>
-                      <h4 className="text-lg font-semibold">
-                        {currentMonth.toLocaleString("default", {
-                          month: "long",
-                          year: "numeric",
-                        })}
-                      </h4>
-                      <button onClick={() => changeMonth(1)} className="p-2">
-                        <ChevronRight size={24} />
-                      </button>
-                    </div>
-                    <div className="grid grid-cols-7 gap-2">
-                      {weekDays.map((day) => (
-                        <div
-                          key={day}
-                          className="text-center font-medium text-sm py-2"
-                        >
-                          {day}
-                        </div>
-                      ))}
-                      {getDaysInMonth(currentMonth).map((date, index) => (
-                        <button
-                          key={index}
-                          onClick={() => {
-                            setSelectedDate(date);
-                            setStep("time");
-                          }}
-                          disabled={isPastDate(date)}
-                          className={`p-2 rounded-full text-sm ${
-                            isToday(date)
-                              ? "bg-primary text-primary-foreground"
-                              : isPastDate(date)
-                              ? "text-gray-400 cursor-not-allowed"
-                              : "hover:bg-secondary"
-                          }`}
-                        >
-                          {date.getDate()}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {step === "time" && (
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between mb-4">
-                      <button
-                        onClick={() => setStep("date")}
-                        className="flex items-center text-primary hover:text-primary/90"
-                      >
-                        <ChevronLeft className="w-5 h-5 mr-1" />
-                        Back
-                      </button>
-                      <h4 className="text-lg font-semibold">
-                        Select a time for {selectedDate?.toLocaleDateString()}
-                      </h4>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      Meeting duration: {meetingDuration}
-                    </p>
-                    <div className="grid grid-cols-3 gap-2">
-                      {timeSlots.map((time) => (
-                        <button
-                          key={time}
-                          onClick={() => {
-                            setSelectedTime(time);
-                            setCustomTime("");
-                          }}
-                          className={`p-2 rounded-md text-sm ${
-                            selectedTime === time
-                              ? "bg-primary text-primary-foreground"
-                              : "hover:bg-secondary"
-                          }`}
-                        >
-                          {time}
-                        </button>
-                      ))}
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="custom-time"
-                        className="block text-sm font-medium mb-1"
-                      >
-                        Custom Time
-                      </label>
-                      <input
-                        type="time"
-                        id="custom-time"
-                        value={customTime}
-                        onChange={(e) => {
-                          setCustomTime(e.target.value);
-                          setSelectedTime(null);
-                        }}
-                        className="w-full p-2 border rounded-md"
-                      />
-                    </div>
-                    <button
-                      onClick={handleScheduleMeeting}
-                      disabled={!selectedTime && !customTime}
-                      className={`w-full bg-primary text-primary-foreground px-4 py-2 rounded-md flex items-center justify-center ${
-                        !selectedTime &&
-                        !customTime &&
-                        "opacity-50 cursor-not-allowed"
+                      onClick={() => setActiveTab("form")}
+                      className={`flex-1 py-3 text-center relative overflow-hidden transition-colors duration-300 ${
+                        activeTab === "form"
+                          ? "text-primary font-semibold"
+                          : "text-gray-500"
                       }`}
                     >
-                      <Calendar className="w-5 h-5 mr-2" />
-                      Confirm Meeting
+                      <span className="relative z-10 flex items-center justify-center">
+                        {activeTab === "form" ? (
+                          <MessageSquare className="w-5 h-5 mr-2" />
+                        ) : (
+                          <MessageSquare className="w-5 h-5 mr-2 text-gray-400" />
+                        )}
+                        Contact Form
+                      </span>
+                      {activeTab === "form" && (
+                        <motion.div
+                          layoutId="tab-background"
+                          className="absolute inset-0 bg-primary/10 rounded-t-lg"
+                          initial={false}
+                          transition={{
+                            type: "spring",
+                            stiffness: 500,
+                            damping: 30,
+                          }}
+                        />
+                      )}
+                    </button>
+                    <button
+                      onClick={() => setActiveTab("schedule")}
+                      className={`flex-1 py-3 text-center relative overflow-hidden transition-colors duration-300 ${
+                        activeTab === "schedule"
+                          ? "text-primary font-semibold"
+                          : "text-gray-500"
+                      }`}
+                    >
+                      <span className="relative z-10 flex items-center justify-center">
+                        {activeTab === "schedule" ? (
+                          <Calendar className="w-5 h-5 mr-2" />
+                        ) : (
+                          <Calendar className="w-5 h-5 mr-2 text-gray-400" />
+                        )}
+                        Schedule Meeting
+                      </span>
+                      {activeTab === "schedule" && (
+                        <motion.div
+                          layoutId="tab-background"
+                          className="absolute inset-0 bg-primary/10 rounded-t-lg"
+                          initial={false}
+                          transition={{
+                            type: "spring",
+                            stiffness: 500,
+                            damping: 30,
+                          }}
+                        />
+                      )}
                     </button>
                   </div>
-                )}
-              </div>
+
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeTab}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.3 }}
+                      className="flex-grow overflow-y-auto"
+                    >
+                      {activeTab === "form" && (
+                        <div className="p-4">
+                          <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                              <label
+                                htmlFor="name"
+                                className="block text-sm font-medium mb-1"
+                              >
+                                Name
+                              </label>
+                              <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                                className="w-full p-2 border rounded-md"
+                                required
+                              />
+                            </div>
+                            <div>
+                              <label
+                                htmlFor="email"
+                                className="block text-sm font-medium mb-1"
+                              >
+                                Email
+                              </label>
+                              <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                className="w-full p-2 border rounded-md"
+                                required
+                              />
+                            </div>
+                            <div>
+                              <label
+                                htmlFor="message"
+                                className="block text-sm font-medium mb-1"
+                              >
+                                Message
+                              </label>
+                              <textarea
+                                id="message"
+                                name="message"
+                                value={formData.message}
+                                onChange={handleInputChange}
+                                rows={4}
+                                className="w-full p-2 border rounded-md"
+                                required
+                              ></textarea>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <button
+                                type="submit"
+                                className="bg-primary text-primary-foreground px-4 py-2 rounded-md flex items-center"
+                              >
+                                <Send className="w-5 h-5 mr-2" />
+                                Send Message
+                              </button>
+                              <button
+                                type="button"
+                                onClick={handleWhatsApp}
+                                className="bg-green-500 text-white px-4 py-2 rounded-md flex items-center"
+                              >
+                                <WhatsApp className="w-5 h-5 mr-2" />
+                                WhatsApp
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      )}
+
+                      {activeTab === "schedule" && (
+                        <div className="p-4">
+                          {scheduleStep === "date" && (
+                            <div className="space-y-4">
+                              <div className="flex justify-between items-center">
+                                <button
+                                  onClick={() => changeMonth(-1)}
+                                  className="p-2"
+                                >
+                                  <ChevronLeft size={24} />
+                                </button>
+                                <h4 className="text-lg font-semibold">
+                                  {currentMonth.toLocaleString("default", {
+                                    month: "long",
+                                    year: "numeric",
+                                  })}
+                                </h4>
+                                <button
+                                  onClick={() => changeMonth(1)}
+                                  className="p-2"
+                                >
+                                  <ChevronRight size={24} />
+                                </button>
+                              </div>
+                              <div className="grid grid-cols-7 gap-2">
+                                {weekDays.map((day) => (
+                                  <div
+                                    key={day}
+                                    className="text-center font-medium text-sm py-2"
+                                  >
+                                    {day}
+                                  </div>
+                                ))}
+                                {getDaysInMonth(currentMonth).map(
+                                  (date, index) => (
+                                    <button
+                                      key={index}
+                                      onClick={() => {
+                                        setSelectedDate(date);
+                                        setScheduleStep("time");
+                                      }}
+                                      disabled={isPastDate(date)}
+                                      className={`p-2 rounded-full text-sm ${
+                                        isToday(date)
+                                          ? "bg-primary text-primary-foreground"
+                                          : isPastDate(date)
+                                          ? "text-gray-400 cursor-not-allowed"
+                                          : "hover:bg-secondary"
+                                      }`}
+                                    >
+                                      {date.getDate()}
+                                    </button>
+                                  )
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {scheduleStep === "time" && (
+                            <div className="space-y-4">
+                              <div className="flex items-center justify-between mb-4">
+                                <button
+                                  onClick={() => setScheduleStep("date")}
+                                  className="flex items-center text-primary hover:text-primary/90"
+                                >
+                                  <ChevronLeft className="w-5 h-5 mr-1" />
+                                  Back
+                                </button>
+                                <h4 className="text-lg font-semibold">
+                                  Select a time for{" "}
+                                  {selectedDate?.toLocaleDateString()}
+                                </h4>
+                              </div>
+                              <p className="text-sm text-muted-foreground mb-4">
+                                Meeting duration: {meetingDuration}
+                              </p>
+                              <div className="grid grid-cols-2 gap-2">
+                                {timeSlots.map((time) => (
+                                  <button
+                                    key={time}
+                                    onClick={() => {
+                                      setSelectedTime(time);
+                                      setCustomTime("");
+                                    }}
+                                    className={`p-2 rounded-md text-sm ${
+                                      selectedTime === time
+                                        ? "bg-primary text-primary-foreground"
+                                        : "hover:bg-secondary"
+                                    }`}
+                                  >
+                                    {time}
+                                  </button>
+                                ))}
+                              </div>
+                              <div>
+                                <label
+                                  htmlFor="custom-time"
+                                  className="block text-sm font-medium mb-1"
+                                >
+                                  Custom Time
+                                </label>
+                                <input
+                                  type="time"
+                                  id="custom-time"
+                                  value={customTime}
+                                  onChange={(e) => {
+                                    setCustomTime(e.target.value);
+                                    setSelectedTime(null);
+                                  }}
+                                  className="w-full p-2 border rounded-md"
+                                />
+                              </div>
+                              <button
+                                onClick={handleScheduleMeeting}
+                                disabled={!selectedTime && !customTime}
+                                className={`w-full bg-primary text-primary-foreground px-4 py-2 rounded-md flex items-center justify-center ${
+                                  !selectedTime &&
+                                  !customTime &&
+                                  "opacity-50 cursor-not-allowed"
+                                }`}
+                              >
+                                <Calendar className="w-5 h-5 mr-2" />
+                                Confirm Meeting
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </motion.div>
+                  </AnimatePresence>
+                </>
+              ) : (
+                <div className="flex flex-col md:flex-row h-full">
+                  <div className="flex-1 p-6 md:p-8 overflow-y-auto">
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                      <div>
+                        <label
+                          htmlFor="name"
+                          className="block text-sm font-medium mb-1"
+                        >
+                          Name
+                        </label>
+                        <input
+                          type="text"
+                          id="name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          className="w-full p-2 border rounded-md"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="email"
+                          className="block text-sm font-medium mb-1"
+                        >
+                          Email
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          className="w-full p-2 border rounded-md"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="message"
+                          className="block text-sm font-medium mb-1"
+                        >
+                          Message
+                        </label>
+                        <textarea
+                          id="message"
+                          name="message"
+                          value={formData.message}
+                          onChange={handleInputChange}
+                          rows={4}
+                          className="w-full p-2 border rounded-md"
+                          required
+                        ></textarea>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <button
+                          type="submit"
+                          className="bg-primary text-primary-foreground px-4 py-2 rounded-md flex items-center"
+                        >
+                          <Send className="w-5 h-5 mr-2" />
+                          Send Message
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleWhatsApp}
+                          className="bg-green-500 text-white px-4 py-2 rounded-md flex items-center"
+                        >
+                          <WhatsApp className="w-5 h-5 mr-2" />
+                          WhatsApp
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div className="flex-1 bg-gray-100 dark:bg-gray-800 p-6 md:p-8 overflow-y-auto">
+                    {scheduleStep === "date" && (
+                      <div className="space-y-4">
+                        <div className="flex justify-between items-center">
+                          <button
+                            onClick={() => changeMonth(-1)}
+                            className="p-2"
+                          >
+                            <ChevronLeft size={24} />
+                          </button>
+                          <h4 className="text-lg font-semibold">
+                            {currentMonth.toLocaleString("default", {
+                              month: "long",
+                              year: "numeric",
+                            })}
+                          </h4>
+                          <button
+                            onClick={() => changeMonth(1)}
+                            className="p-2"
+                          >
+                            <ChevronRight size={24} />
+                          </button>
+                        </div>
+                        <div className="grid grid-cols-7 gap-2">
+                          {weekDays.map((day) => (
+                            <div
+                              key={day}
+                              className="text-center font-medium text-sm py-2"
+                            >
+                              {day}
+                            </div>
+                          ))}
+                          {getDaysInMonth(currentMonth).map((date, index) => (
+                            <button
+                              key={index}
+                              onClick={() => {
+                                setSelectedDate(date);
+                                setScheduleStep("time");
+                              }}
+                              disabled={isPastDate(date)}
+                              className={`p-2 rounded-full text-sm ${
+                                isToday(date)
+                                  ? "bg-primary text-primary-foreground"
+                                  : isPastDate(date)
+                                  ? "text-gray-400 cursor-not-allowed"
+                                  : "hover:bg-secondary"
+                              }`}
+                            >
+                              {date.getDate()}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {scheduleStep === "time" && (
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between mb-4">
+                          <button
+                            onClick={() => setScheduleStep("date")}
+                            className="flex items-center text-primary hover:text-primary/90"
+                          >
+                            <ChevronLeft className="w-5 h-5 mr-1" />
+                            Back
+                          </button>
+                          <h4 className="text-lg font-semibold">
+                            Select a time for{" "}
+                            {selectedDate?.toLocaleDateString()}
+                          </h4>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Meeting duration: {meetingDuration}
+                        </p>
+                        <div className="grid grid-cols-2 gap-2">
+                          {timeSlots.map((time) => (
+                            <button
+                              key={time}
+                              onClick={() => {
+                                setSelectedTime(time);
+                                setCustomTime("");
+                              }}
+                              className={`p-2 rounded-md text-sm ${
+                                selectedTime === time
+                                  ? "bg-primary text-primary-foreground"
+                                  : "hover:bg-secondary"
+                              }`}
+                            >
+                              {time}
+                            </button>
+                          ))}
+                        </div>
+                        <div>
+                          <label
+                            htmlFor="custom-time"
+                            className="block text-sm font-medium mb-1"
+                          >
+                            Custom Time
+                          </label>
+                          <input
+                            type="time"
+                            id="custom-time"
+                            value={customTime}
+                            onChange={(e) => {
+                              setCustomTime(e.target.value);
+                              setSelectedTime(null);
+                            }}
+                            className="w-full p-2 border rounded-md"
+                          />
+                        </div>
+                        <button
+                          onClick={handleScheduleMeeting}
+                          disabled={!selectedTime && !customTime}
+                          className={`w-full bg-primary text-primary-foreground px-4 py-2 rounded-md flex items-center justify-center ${
+                            !selectedTime &&
+                            !customTime &&
+                            "opacity-50 cursor-not-allowed"
+                          }`}
+                        >
+                          <Calendar className="w-5 h-5 mr-2" />
+                          Confirm Meeting
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </motion.div>
         </motion.div>
