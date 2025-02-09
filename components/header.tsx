@@ -34,9 +34,18 @@ const Header = () => {
       className="bg-background/80 backdrop-blur-sm sticky top-0 z-50 w-full border-b"
     >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold flex items-center gap-2">
-          <Image src="/statlogo.png" alt="Logo" width={55} height={55} />
-          Statprove
+        <Link
+          href="/"
+          className="text-2xl font-bold flex items-center gap-2 sm:text-base sm:gap-1"
+        >
+          <Image
+            src="/statlogo.png"
+            alt="Logo"
+            width={55}
+            height={55}
+            className="lg:w-12 lg:h-12 w-10 h-10"
+          />
+          <span className="text-sm lg:text-xl">Statprove</span>
         </Link>
 
         {/* Desktop Navigation */}
